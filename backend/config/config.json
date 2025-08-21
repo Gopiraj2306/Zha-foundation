@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "keerthi@444",
+    "database": "zha_app",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
