@@ -12,6 +12,8 @@ const rolePermissionRoutes = require('./routes/rolePermissionRoutes');
 const schoolRoutes = require('./routes/schoolRoutes');
 const schoolAdminRoutes = require('./routes/schoolAdminRoutes');
 const designationRoutes = require('./routes/designationRoutes');
+const studentRoutes = require('./routes/students');
+const socialCoachRoutes = require('./routes/socialCoaches');
 
 const app = express();
 app.use(express.json());
@@ -25,6 +27,8 @@ app.use('/api/rolepermissions', rolePermissionRoutes);
 app.use('/api/schools', schoolRoutes);
 app.use('/api/schooladmins', schoolAdminRoutes);
 app.use('/api/designations', designationRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/social-coaches', socialCoachRoutes);
 
 initDB().then(() => {
   app.listen(5000, () => console.log('🚀 Server running on port 5000'));

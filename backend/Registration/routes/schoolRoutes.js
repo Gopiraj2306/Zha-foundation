@@ -10,8 +10,10 @@ router.get('/:id', isAuthenticated, schoolController.getSchoolById);
 router.put('/:id', isAuthenticated, schoolController.updateSchoolById);
 router.delete('/:id', isAuthenticated, schoolController.deleteSchoolById);
 
+
 // Approval route restricted to Super Admin
 router.put('/:id/approve', isAuthenticated, isSuperAdmin, schoolController.approveSchool);
+
 
 
 module.exports = router;
