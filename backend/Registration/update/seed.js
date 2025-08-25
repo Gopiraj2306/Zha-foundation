@@ -15,9 +15,9 @@ async function seed() {
     // Insert Roles
     await Role.bulkCreate([
       { name: 'Governor' },
-      { name: 'School' },
-      { name: 'Coach' },
-      { name: 'Admin' },
+      { name: 'School Admin' },
+      { name: 'Social Coach' },
+      { name: 'Super Admin' },
       { name: 'Student' },
       { name: 'Staff' }
     ]);

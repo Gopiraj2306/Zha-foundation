@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const multer = require('multer'); // Import multer here
 dotenv.config();
+
 const { initDB } = require('./models');
 
 const authRoutes = require('./routes/authRoutes');
@@ -14,9 +16,23 @@ const schoolAdminRoutes = require('./routes/schoolAdminRoutes');
 const designationRoutes = require('./routes/designationRoutes');
 const studentRoutes = require('./routes/students');
 const socialCoachRoutes = require('./routes/socialCoaches');
+const socialCoachAssignmentRoutes = require('./routes/socialCoachAssignmentRoutes');
 
 const app = express();
+
 app.use(express.json());
+
+// Initialize multer upload middleware here
+const upload = multer().single('file'); // expects 'file' field in form-data
+
+// Your bulk upload handler function for social coaches should be imported from controller
+const socialCoachController = require('./controllers/socialCoachController');
+
+// Use upload middleware only in your route, e.g. inside routes/socialCoachRoutes.js or here:
+app.post('/test-upload', upload, (req, res) => {
+  res.json({ file: req.file });
+});
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -29,6 +45,7 @@ app.use('/api/schooladmins', schoolAdminRoutes);
 app.use('/api/designations', designationRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/social-coaches', socialCoachRoutes);
+app.use('/api/social-coach-assignments', socialCoachAssignmentRoutes);
 
 initDB().then(() => {
   app.listen(5000, () => console.log('🚀 Server running on port 5000'));
