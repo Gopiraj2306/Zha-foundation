@@ -1,0 +1,135 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+  font-family: 'Poppins';
+ }
+/* Apply Inter font to the whole header */
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  font-family: 'Inter', sans-serif;
+  padding: 1rem 1.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px; 
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.header-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #16a34a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo-text {
+  color: white;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.header-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-container {
+  position: relative;
+  display: flex;           /* ✅ makes the bell sit in the same flex alignment as profile-section */
+  align-items: center;     /* ✅ vertically center the bell */
+  justify-content: center; /* ✅ optional, keeps icon centered if container is wider */
+  height: 2rem;            /* ✅ matches .profile-avatar height */
+}
+
+.notification-bell {
+  width: 1.25rem;  /* ✅ match .profile-avatar svg size */
+  height: 1.25rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.notification-bell:hover {
+  color: #111827;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -0.25rem;   /* ✅ adjusted to center relative to smaller bell size */
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.profile-avatar {
+  width: 2rem;
+  height: 2rem;
+  background-color: #d1d5db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+.profile-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}

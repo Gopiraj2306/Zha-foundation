@@ -1,0 +1,106 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+html, body {
+  height: 100%;
+  overflow: hidden; /* stops page scroll */
+}
+.sidebar {
+  margin-top: 20px;
+  width: 19rem;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  min-height: calc(100vh - 94px);
+  margin-top: 94px; /* match header height */
+  overflow-y: auto;
+  font-family: 'Inter', sans-serif; /* ✅ exact font */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.sidebar-nav {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #111827; /* darker text */
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9375rem; /* matches screenshot size */
+}
+
+.sidebar-item svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #111827; /* match text */
+  flex-shrink: 0;
+}
+
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
+
+.sidebar-item.active {
+  background-color: #2563eb; /* blue highlight */
+  color: white;
+}
+
+.sidebar-item.active svg {
+  color: white;
+}
+
+.sidebar-item-text {
+  font-size: 0.9375rem;
+}
+
+.sidebar-divider {
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1rem;
+}
+
+.logout-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.logout-item svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #374151;
+}
+
+.logout-item:hover {
+  background-color: #f3f4f6;
+}
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.sidebar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}

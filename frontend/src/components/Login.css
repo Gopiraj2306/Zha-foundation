@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+  font-family: 'Poppins';
+ }
+.login-container {
+  background: white;
+  display: flex;
+  height: 100vh;
+  width: 170%;
+}
+
+/* Image section */
+.login-image {
+  width: 150%;
+  flex: 1;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-image img {
+  width: 150%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Form section */
+.login-form {  
+  flex: 1;
+  margin-top: 20px;
+  margin-right: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: white;
+}
+.login-form h2{
+  text-align: center;
+}
+.login-form p{
+  text-align: center;
+}
+.login-form h3{
+  text-align: center;
+}
+
+
+.form-content {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-content h2 {
+  margin-bottom: 5px;
+}
+
+.form-content p {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: -16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 0.9em;
+  margin-bottom: 20px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.signup-text {
+  text-align: center;
+  /* margin-top: 10px; */
+}
+
+.signup-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.or-separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.or-separator hr {
+  flex: 1;
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.or-separator span {
+  padding: 0 10px;
+  color: #000;
+  font-weight: 500;
+}

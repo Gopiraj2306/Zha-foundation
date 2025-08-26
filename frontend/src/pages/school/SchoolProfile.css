@@ -1,0 +1,233 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+  font-family: 'Poppins';
+ }
+.app-body {
+  display: flex;
+  min-height: calc(100vh - 94px);
+}
+
+.main-content {
+  flex: 1;
+  background-color: white;
+  margin-top: 95px;
+  margin-left: 308px; 
+  height: calc(100vh - 94px);
+  overflow-y: auto;
+}
+
+.school-profile {
+  padding: 2rem;
+}
+
+/* Profile Header */
+.profile-header {
+  margin-left: -50px;
+  background-color: #2563eb; /* dark blue */
+  border-radius: 0.75rem;
+  padding:15px 10px ;
+  color: white;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.profile-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.edit-button {
+  background-color: white;
+  /* color: #2563eb; */
+  color: black;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: 0.3s;
+}
+.edit-button:hover {
+  background-color: #f1f5f9;
+}
+.edit-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+.profile-wrapper {
+  border-radius: 0.75rem;
+  margin-left: -60px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+/* Card Base */
+  .capacity-card {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+.info-card,
+.vision-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Capacity card */
+.capacity-content {
+  display: flex;
+  align-items: center;
+  
+}
+.capacity-icon {
+  width: 3rem;
+  height: 3rem;
+  background-color: #dbeafe;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.capacity-icon svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  color: #2563eb;
+}
+.capacity-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+.capacity-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin: 0;
+}
+
+/* Info card */
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.info-title-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.info-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #dbeafe;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.info-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #2563eb;
+}
+.info-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+/* Approved Badge - Blue */
+.approved-badge.green {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgb(89, 202, 89);
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  color: white;
+}
+.approved-badge.blue svg {
+  width: 1rem;
+  height: 1rem;
+}
+.approved-badge.blue .approved-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* School Info Layout */
+.school-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* side by side */
+  gap: 1rem;
+}
+.school-detail {
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.school-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 0.25rem 0;
+}
+.school-value {
+  font-size: 1.125rem;
+  font-weight: 700; /* bold */
+  color: #111827;
+  margin: 0;
+}
+
+/* Vision card */
+.vision-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.vision-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #f3e8ff;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vision-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #8b5cf6;
+}
+.vision-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+.vision-text {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}

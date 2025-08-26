@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+  font-family: 'Poppins';
+ }
+ .edit-coach-container {
+  margin-left: 220px;
+  padding: 2rem;
+  width: 950px;
+}
+
+.edit-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.edit-coach-form {
+  background: #f3f3f3;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
+}
+
+.edit-section-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.edit-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.edit-form-grid label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.edit-form-grid input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.edit-address-field {
+  margin-top: 20px;
+}
+
+.edit-address-field textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  height: 80px;
+}
+
+.edit-form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit-btn-save {
+  background: rgb(0, 60, 255);
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 5px 0 10px;
+}
+
+.edit-btn-cancel {
+  background: #ccc;
+  color: black;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
