@@ -59,13 +59,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const readXlsxFile = require('read-excel-file/node');
+const { Op } = require('sequelize');
 const { Student } = require('../models');
 
+// Configure multer for Excel file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = './uploads';
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-    cb(null, dir);
+    const uploadPath = './uploads';
+    if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath);
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     cb(null, `student-upload-${Date.now()}${path.extname(file.originalname)}`);
@@ -92,93 +94,83 @@ exports.bulkUploadStudents = (req, res) => {
 
     try {
       const rows = await readXlsxFile(filePath);
+
       if (rows.length < 2) {
         fs.unlinkSync(filePath);
         return res.status(400).json({ error: 'Excel file is empty or missing data' });
       }
 
-      // Map headers and validate presence of required columns
       const headerRow = rows[0].map(h => h.toString().toLowerCase().trim());
-      const requiredCols = ['first_name', 'last_name', 'email', 'phone', 'gender', 'date_of_birth'];
-      const colMap = {};
-      for (const col of requiredCols) {
-        const idx = headerRow.indexOf(col);
-        if (idx === -1) {
+      const requiredColumns = ['first_name', 'last_name', 'email', 'phone', 'gender', 'date_of_birth'];
+      const columnIndexMap = {};
+      for (const col of requiredColumns) {
+        const colIndex = headerRow.indexOf(col);
+        if (colIndex === -1) {
           fs.unlinkSync(filePath);
           return res.status(400).json({ error: `Missing required column: ${col}` });
         }
-        colMap[col] = idx;
+        columnIndexMap[col] = colIndex;
       }
 
-      // Construct student objects, skip incomplete rows
       const students = [];
-      for(let i = 1; i < rows.length; i++) {
+
+      for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
-        if (!row[colMap.first_name] || !row[colMap.email]) {
-          continue; // Skip rows missing mandatory fields
-        }
+
+        // Skip rows missing mandatory fields
+        if (!row[columnIndexMap.first_name] || !row[columnIndexMap.email]) continue;
+
         students.push({
-          first_name: row[colMap.first_name],
-          last_name: row[colMap.last_name],
-          email: row[colMap.email],
-          phone: row[colMap.phone],
-          gender: row[colMap.gender],
-          date_of_birth: row[colMap.date_of_birth]
+          first_name: row[columnIndexMap.first_name],
+          last_name: row[columnIndexMap.last_name],
+          email: row[columnIndexMap.email],
+          phone: row[columnIndexMap.phone] || null,
+          gender: row[columnIndexMap.gender] || null,
+          date_of_birth: row[columnIndexMap.date_of_birth] || null,
         });
       }
 
       if (students.length === 0) {
         fs.unlinkSync(filePath);
-        return res.status(400).json({ error: 'No valid student records found' });
+        return res.status(400).json({ error: 'No valid student data found' });
       }
 
       await Student.bulkCreate(students, { validate: true });
-
       fs.unlinkSync(filePath);
-      res.json({ message: 'Bulk upload successful', count: students.length });
-
-    } catch (error) {
+      res.json({ message: 'Students bulk uploaded', count: students.length });
+    } catch (parseError) {
       fs.unlinkSync(filePath);
-      res.status(500).json({ error: 'Failed to parse or insert records', details: error.message });
+      res.status(500).json({ error: 'Failed to process file', details: parseError.message });
     }
   });
 };
 
-// Filtering and fetching student list
-exports.getAllStudents = async (req, res) => {
+exports.createStudent = async (req, res) => {
   try {
-    const filter = {};
-    if (req.query.first_name) filter.first_name = { [Op.like]: `%${req.query.first_name}%` };
-    if (req.query.class) filter.class = req.query.class;
-    if (req.query.is_active !== undefined) filter.is_active = req.query.is_active === 'true';
-    // Add other filters as appropriate
+    const { school_id, first_name, email } = req.body;
+    if (!school_id) return res.status(400).json({ error: 'school_id is required' });
+    if (!first_name) return res.status(400).json({ error: 'first_name is required' });
+    if (!email) return res.status(400).json({ error: 'email is required' });
 
-    const students = await Student.findAll({ where: filter });
-    res.json(students);
+    const student = await Student.create(req.body);
+    res.status(201).json(student);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.createStudent = async (req, res) => {
-  try {
-    const student = await Student.create(req.body);
-    res.status(201).json(student);
-  } catch(error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 exports.getAllStudents = async (req, res) => {
   try {
+    const { first_name, class: className, is_active } = req.query;
     const filter = {};
-    if(req.query.first_name) filter.first_name = { [Op.like]: `%${req.query.first_name}%` };
-    if(req.query.class) filter.class = req.query.class;
-    if(req.query.is_active !== undefined) filter.is_active = req.query.is_active === 'true';
+
+    if (first_name) filter.first_name = { [Op.like]: `%${first_name}%` };
+    if (className) filter.class = className;
+    if (is_active !== undefined) filter.is_active = is_active === 'true';
 
     const students = await Student.findAll({ where: filter });
     res.json(students);
-  } catch(error) {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
