@@ -10,7 +10,7 @@ module.exports = {
     phone: '1234567890',
     address: '742 Evergreen Terrace',
     city: 'Springfield',
-    state: 'State',
+    state_id: 1,
     postal_code: '12345',
     country: 'USA',
     website: 'http://springfield.edu',
