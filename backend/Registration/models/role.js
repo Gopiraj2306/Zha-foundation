@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
-const Role = sequelize.define('Role', {
+module.exports = sequelize.define('Role', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
   description: { type: DataTypes.TEXT },
@@ -14,5 +14,3 @@ const Role = sequelize.define('Role', {
   paranoid: true,
   deletedAt: 'deleted_at'
 });
-
-module.exports = Role;

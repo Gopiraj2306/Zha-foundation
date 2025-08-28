@@ -1,43 +1,62 @@
+// models/school.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
 const School = sequelize.define('School', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING(100), allowNull: false },
-  email: { type: DataTypes.STRING(100), allowNull: false },
-  school_code: { type: DataTypes.STRING(10), unique: true, allowNull: true },
-  register_date: { type: DataTypes.DATE },
-  phone: { type: DataTypes.STRING(20) },
-  mobile: { type: DataTypes.STRING(20) },
-  address: { type: DataTypes.TEXT },
-  city: { type: DataTypes.STRING(100) },
-  state: { type: DataTypes.STRING(100) },
-  postal_code: { type: DataTypes.STRING(20) },
-  country: { type: DataTypes.STRING(100) },
-  website: { type: DataTypes.STRING(255) },
-  description: { type: DataTypes.STRING(1000) },
-  logo: { type: DataTypes.STRING(255) },
-  principal_name: { type: DataTypes.STRING(100) },
-  school_type: { type: DataTypes.ENUM('Public', 'Private', 'Charter', 'Other'), allowNull: false },
-  management: { type: DataTypes.STRING(100) },
-  education_district: { type: DataTypes.STRING(100) },
-  contact_person: { type: DataTypes.STRING(100) },
-  contact_person_email: { type: DataTypes.STRING(100) },
-  contact_person_mobile: { type: DataTypes.STRING(20) },
-  fax: { type: DataTypes.STRING(20) },
-  landmark: { type: DataTypes.STRING(100) },
-  total_students: { type: DataTypes.INTEGER },
-  total_staff: { type: DataTypes.INTEGER },
-  status: { type: DataTypes.STRING(100), allowNull: false, defaultValue: 'Pending' },
-  approved_date: { type: DataTypes.DATE },
-  reason: { type: DataTypes.STRING(100) },
-  is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
-  is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-  created_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
-  updated_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW }
+  name: { type: DataTypes.STRING(150), allowNull: false },
+  email: { type: DataTypes.STRING(100), allowNull: true },
+  school_code: { type: DataTypes.STRING(50), allowNull: true },
+  // register_date: { type: DataTypes.DATE, allowNull: true },
+  landline_no: { type: DataTypes.STRING(20), allowNull: true },
+  // phone: { type: DataTypes.STRING(20), allowNull: true },
+  mobile_no: { type: DataTypes.STRING(20), allowNull: true },
+  total_teachers: { type: DataTypes.INTEGER, allowNull: true },
+  total_students: { type: DataTypes.INTEGER, allowNull: true },
+  total_staff: { type: DataTypes.INTEGER, allowNull: true },
+  type_id: { type: DataTypes.INTEGER },
+  address_line1: { type: DataTypes.STRING(255), allowNull: true },
+  address_line2: { type: DataTypes.STRING(255), allowNull: true },
+  address_line3: { type: DataTypes.STRING(255), allowNull: true },
+  city: { type: DataTypes.STRING(100), allowNull: true },
+  state_id: { type: DataTypes.INTEGER, allowNull: true },
+  postal_code: { type: DataTypes.STRING(20), allowNull: true },
+  country: { type: DataTypes.STRING(100), allowNull: true },
+
+  website: { type: DataTypes.STRING(255), allowNull: true },
+  description: { type: DataTypes.STRING(1000), allowNull: true },
+  logo: { type: DataTypes.STRING(255), allowNull: true },
+  principal_name: { type: DataTypes.STRING(100), allowNull: true },
+
+  school_type: { 
+    type: DataTypes.ENUM('public','private','charter','other'), 
+    allowNull: false,
+    defaultValue: 'public'
+  },
+  school_management: { type: DataTypes.STRING(100), allowNull: true },
+  education_district: { type: DataTypes.STRING(100), allowNull: true },
+
+  contact_person: { type: DataTypes.STRING(100), allowNull: true },
+  contact_person_email: { type: DataTypes.STRING(100), allowNull: true },
+  contact_person_mobile: { type: DataTypes.STRING(20), allowNull: true },
+  fax_no: { type: DataTypes.STRING(20), allowNull: true },
+  landmark: { type: DataTypes.STRING(255), allowNull: true },
+
+  class_range: { type: DataTypes.STRING(50), allowNull: true },
+  status: { type: DataTypes.STRING(50), allowNull: true },
+  approved_date: { type: DataTypes.DATE, allowNull: true },
+  reason: { type: DataTypes.STRING(1000), allowNull: true },
+
+  is_active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+  is_deleted: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
+
 }, {
-  tableName: 'schools',
-  timestamps: false
+  tableName: 'school',        // ✅ matches your table name
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  paranoid: true,
+  deletedAt: 'deleted_at'
 });
 
 module.exports = School;
