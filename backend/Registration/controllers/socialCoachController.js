@@ -77,32 +77,70 @@ const upload = multer({
   },
 }).single('file');
 
-exports.bulkUploadCoaches = (req, res) => {
-  upload(req, res, err => {
-    if (err) return res.status(400).json({ error: err.message });
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+exports.bulkUploadCoaches = async (req, res) => {
+  try {
+    // 1. Upload file
+    await new Promise((resolve, reject) => {
+      upload(req, res, (err) => {
+        if (err) {
+          console.error("❌ Upload error:", err.message);
+          return reject(err);
+        }
+        if (!req.file) {
+          console.warn("⚠️ No file uploaded");
+          return reject(new Error("No file uploaded"));
+        }
+        resolve();
+      });
+    });
 
     const filePath = req.file.path;
-    readXlsxFile(filePath)
-      .then(rows => {
-        rows.shift(); // Remove header
-        const coaches = rows.map(row => ({
-          first_name: row[0],
-          last_name: row[1],
-          email: row[2],
-          phone: row[3],
-          gender: row[4],
-        }));
+    console.log("📂 Uploaded File Path:", filePath);
 
-        SocialCoach.bulkCreate(coaches)
-          .then(() => {
-            fs.unlinkSync(filePath);
-            res.json({ message: 'Coaches uploaded', count: coaches.length });
-          }).catch(error => res.status(500).json({ error: error.message }));
-      })
-      .catch(error => res.status(500).json({ error: error.message }));
-  });
+    // 2. Read Excel
+    const rows = await readXlsxFile(filePath);
+    console.log("📊 Raw Excel Rows:", rows);
+
+    const headers = rows[0];
+    console.log("📑 Headers Detected:", headers);
+
+    rows.shift(); // Remove header
+    console.log("📊 Data Rows Count:", rows.length);
+
+    // 3. Map to Coach objects
+    const coaches = rows.map((row, i) => {
+      const coach = {
+        first_name: row[0],
+        last_name: row[1],
+        email: row[2],
+        phone: row[3],
+        gender: row[4],
+        designation: row[5],                  // ✅ added
+        active_status: row[6],                // ✅ added
+        school_id: parseInt(row[7]) || null,  // ✅ numeric
+        user_id: parseInt(row[8]) || null     // ✅ numeric
+      };
+      console.log(`➡️ Row ${i + 1}:`, coach);
+      return coach;
+    });
+
+    console.log("✅ Final Coaches Array (to insert):", coaches);
+
+    // 4. Insert into DB
+    await SocialCoach.bulkCreate(coaches);
+    console.log(`✅ Insert Success: ${coaches.length} coaches uploaded`);
+
+    // 5. Cleanup + response
+    fs.unlinkSync(filePath);
+    res.json({ message: "Coaches uploaded", count: coaches.length });
+
+  } catch (error) {
+    console.error("❌ Bulk Upload Error:", error);
+    res.status(500).json({ error: error.message });
+  }
 };
+
+
 
 exports.getAllSocialCoaches = async (req, res) => {
   try {

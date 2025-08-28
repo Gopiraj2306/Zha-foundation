@@ -37,15 +37,15 @@
 
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/database'); // Adjust path as per your setup
+const sequelize = require('../../config/database');
 
 const Student = sequelize.define('Student', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   school_id: { type: DataTypes.INTEGER, allowNull: false },
   user_id: { type: DataTypes.INTEGER, allowNull: false },
   first_name: { type: DataTypes.STRING(50), allowNull: false },
-  last_name: { type: DataTypes.STRING(50), allowNull: false },
-  email: { type: DataTypes.STRING(100), allowNull: false },
+  last_name: { type: DataTypes.STRING(50) },
+  email: { type: DataTypes.STRING(100), allowNull: false, unique: true },
   phone: { type: DataTypes.STRING(20) },
   gender: { type: DataTypes.ENUM('Male', 'Female') },
   date_of_birth: { type: DataTypes.DATEONLY },
@@ -71,4 +71,6 @@ const Student = sequelize.define('Student', {
   timestamps: false
 });
 
-module.exports = (sequelize) => Student;
+module.exports = Student;
+
+// module.exports = (sequelize) => Student;

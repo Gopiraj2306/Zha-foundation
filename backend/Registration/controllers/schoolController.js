@@ -41,34 +41,34 @@
 //   }
 // };
 
-exports.updateSchoolById = async (req, res) => {
-  try {
-    const schoolId = req.params.id;
-    const updates = req.body;
+// exports.updateSchoolById = async (req, res) => {
+//   try {
+//     const schoolId = req.params.id;
+//     const updates = req.body;
 
-    const [updatedCount] = await School.update(updates, { where: { id: schoolId } });
+//     const [updatedCount] = await School.update(updates, { where: { id: schoolId } });
 
-    if (!updatedCount) return res.status(404).json({ error: 'School not found' });
+//     if (!updatedCount) return res.status(404).json({ error: 'School not found' });
 
-    const updatedSchool = await School.findByPk(schoolId);
-    res.json(updatedSchool);
-  } catch (error) {
-    console.error('Update school error:', error);
-    res.status(400).json({ error: error.message });
-  }
-};
+//     const updatedSchool = await School.findByPk(schoolId);
+//     res.json(updatedSchool);
+//   } catch (error) {
+//     console.error('Update school error:', error);
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
-exports.deleteSchoolById = async (req, res) => {
-  try {
-    const deletedCount = await School.destroy({ where: { id: req.params.id } });
-    if (!deletedCount) return res.status(404).json({ error: 'School not found' });
+// exports.deleteSchoolById = async (req, res) => {
+//   try {
+//     const deletedCount = await School.destroy({ where: { id: req.params.id } });
+//     if (!deletedCount) return res.status(404).json({ error: 'School not found' });
 
-    res.json({ message: 'School deleted successfully' });
-  } catch (error) {
-    console.error('Delete school error:', error);
-    res.status(400).json({ error: error.message });
-  }
-};
+//     res.json({ message: 'School deleted successfully' });
+//   } catch (error) {
+//     console.error('Delete school error:', error);
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 // exports.getAllSchools = async (req, res) => {
 //   try {
@@ -151,3 +151,33 @@ exports.approveSchool = async (req, res) => {
 };
 
 
+
+
+exports.updateSchoolById = async (req, res) => {
+  try {
+    const schoolId = req.params.id;
+    const updates = req.body;
+
+    const [updatedCount] = await School.update(updates, { where: { id: schoolId } });
+
+    if (!updatedCount) return res.status(404).json({ error: 'School not found' });
+
+    const updatedSchool = await School.findByPk(schoolId);
+    res.json(updatedSchool);
+  } catch (error) {
+    console.error('Update school error:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.deleteSchoolById = async (req, res) => {
+  try {
+    const deletedCount = await School.destroy({ where: { id: req.params.id } });
+    if (!deletedCount) return res.status(404).json({ error: 'School not found' });
+
+    res.json({ message: 'School deleted successfully' });
+  } catch (error) {
+    console.error('Delete school error:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
