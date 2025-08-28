@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const multer = require('multer'); // Import multer here
+const cors = require('cors');
 dotenv.config();
 
 const { initDB } = require('./models');
@@ -21,6 +22,11 @@ const socialCoachAssignmentRoutes = require('./routes/socialCoachAssignmentRoute
 const app = express();
 
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173",  // Vite default port
+  credentials: true
+}));
 
 // Initialize multer upload middleware here
 const upload = multer().single('file'); // expects 'file' field in form-data
