@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
-module.exports = sequelize.define('UserRole', {
+
+const UserRole = sequelize.define('UserRole', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   user_id: { type: DataTypes.INTEGER, allowNull: false },
   role_id: { type: DataTypes.INTEGER, allowNull: false },
@@ -9,4 +10,9 @@ module.exports = sequelize.define('UserRole', {
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
-}, { tableName: 'user_roles', timestamps: false });
+}, {
+  tableName: 'user_roles',
+  timestamps: false
+});
+
+module.exports = UserRole;
