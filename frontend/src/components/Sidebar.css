@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 html, body {
   height: 100%;
-  overflow: hidden; /* stops page scroll */
+  overflow: hidden;
+  background-color: #ffff; /* stops page scroll */
 }
 .sidebar {
   margin-top: 20px;

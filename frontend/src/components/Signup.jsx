@@ -1,87 +1,197 @@
-import React, { useState } from 'react';
-import './login.css';
-import plantImage from '../assets/plants.png';
-import logo from '../assets/logo.png';
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import "./signup.css"; // use new css
+import plantImage from "../assets/plants.png";
+import logo from "../assets/logo.png";
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [type, setType] = useState('Traditional');
+const Signup = () => {
+  const navigate = useNavigate();
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // Add your login logic here
-        console.log('Login attempt with:', { email, password });
-    };
+  const [formData, setFormData] = useState({
+    role: "",
+    type: "Traditional",
+    name: "",
+    mobile_no: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
 
-    return (
-        <div className="login-container">
-            <div className="login-image">
-                <img src={plantImage} alt="Login Visual" />
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        formData
+      );
+      console.log("Signup Success:", res.data);
+
+      // ✅ After signup → go directly to SchoolRegistrationForm
+      navigate("/signup/schoolregistrationform");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.error || "Signup failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="signup-container">
+      {/* Left Side - Image */}
+      <div className="signup-left">
+        <img src={plantImage} alt="Signup Visual" className="signup-image" />
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="signup-right" style={{ width:" 1174px"}}>
+        <div className="signup-content">
+          <img src={logo} alt="Logo" className="signup-logo" />
+          <h2 className="signup-title">
+            ZHA Sustainability Practitioners Certifications Club
+          </h2>
+          <p className="signup-subtitle">
+            Professional Mentoring Young Generation
+          </p>
+          <h3 className="signup-heading">Signup</h3>
+
+          <form onSubmit={handleSubmit}>
+            {/* Role */}
+            <div className="form-group">
+              <label>Role</label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="form-input"
+              >
+                <option value="">Choose your role</option>
+                <option value="Super Admin">Super Admin</option>
+                <option value="Governor">Governor</option>
+                <option value="School Admin">School</option>
+                <option value="Social Coach">Social Coach</option>
+              </select>
             </div>
-            <div className="login-form">
-                <div className="form-content">
-                    {/* <div className="logo"> */}
-                    <img src={logo} alt="Logo" width="50" height="50" style={{ marginLeft: '175px',marginTop: '50px' }} />
-                    {/* </div> */}
-                    <h2 >ZHA Sustainability Practitioners Certifications Club</h2>
-                    <p > Professional Mentoring Young Generation</p>
-                    <h3 style={{ marginTop: '-10px' }}>Signup </h3>
-                    <form>
-                        <label htmlFor="role">Role</label>
-                        <select id="role" className="dropdown">
-                            <option value="">Choose your role</option>
-                            <option value="Super Admin">Super Admin</option>
-                                    <option value="Governor">Governor</option>
-                                    <option value="School Admin">School Admin</option>
-                                    <option value="Social Coach">Social Coach</option>
-                                    <option value="Student">Student</option>
-                        </select>
-                            <label className="type-label">Type</label>
-                            <div className="type-options" style={{ display: 'flex' }}>
-                            <label className={`type-option ${type === 'Traditional' ? 'selected' : ''}`} style={{ display: 'flex', alignItems: 'center', marginRight: '20px',textAlign: 'center',border: '1px solid #ccc', borderRadius: '5px',padding: '0 5px 0 5px' }}>
-                                    <input
-                                        type="radio"
-                                        name="type"
-                                        value="Traditional"
-                                        checked={type === 'Traditional'}
-                                        onChange={(e) => setType(e.target.value)}
-                                        style ={{ marginTop: '12px', marginRight: '5px' }}
-                                    />
-                                    Traditional
-                                </label>
 
-                                <label className={`type-option ${type === 'Competitional' ? 'selected' : ''}`} style={{ display: 'flex', alignItems: 'center', marginRight: '20px',border: '1px solid #ccc', borderRadius: '5px',padding: '0 5px 0 5px' }}>
-                                    <input
-                                        type="radio"
-                                        name="type"
-                                        value="Competitional"
-                                        checked={type === 'Competitional'}
-                                        onChange={(e) => setType(e.target.value)}
-                                        style ={{ marginTop: '12px', marginRight: '5px' }}
-                                    />
-                                    Competitional
-                                </label>
-                            </div>
-                        <label>Email Address</label>
-                        <input type="email" placeholder="Enter your email address" />
-                        <label>Password</label>
-                        <input type="password" placeholder="Enter your password" />
-                        <div className="forgot-password">Forgot Password?</div>
-                        <button style={{ marginBottom: '-10px' }} type="submit">Signup</button>
-                    </form>
-                    <div className="or-separator">
-                        <hr />
-                        <span>or</span>
-                        <hr />
-                    </div>
-                    <p style={{ marginBottom: '-10px' }}className="signup-text">You have an account? <Link to="/login">Login</Link></p>
-                </div>
+            {/* Type */}
+            <div className="form-group">
+              <label>Type</label>
+              <div className="type-toggle" >
+                <label className="radio" style={{border: "1px solid #ddd", padding: "0 5px", borderRadius: "10px"}}>
+                  <input
+                    type="radio"
+                    name="type"
+                    value="Traditional"
+                    checked={formData.type === "Traditional"}
+                    onChange={handleChange}
+                    style={{ marginTop: "15px" }}
+                  />
+                  Traditional
+                </label>
+                <label className="radio" style={{border: "1px solid #ddd", padding: "0 5px", borderRadius: "10px"}}>
+                  <input
+                    type="radio"
+                    name="type"
+                    value="Competitional"
+                    checked={formData.type === "Competitional"}
+                    onChange={handleChange}
+                    style={{ marginTop: "15px"}}
+                  />
+                  Competitional
+                </label>
+              </div>
             </div>
+
+            {/* Name */}
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your name"
+                className="form-input"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="form-group">
+              <label>Phone Number</label>
+              <input
+                type="text"
+                name="mobile_no"
+                value={formData.mobile_no}
+                onChange={handleChange}
+                placeholder="Enter your phone number"
+                className="form-input"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="form-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email address"
+                className="form-input"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                className="form-input"
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                name="confirm_password"
+                value={formData.confirm_password}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                className="form-input"
+              />
+            </div>
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            <button type="submit" className="signup-button" disabled={loading}>
+              {loading ? "Signing up..." : "Signup"}
+            </button>
+          </form>
+
+          <div className="divider">or</div>
+          <p className="login-text">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
-export default Login;
+export default Signup;

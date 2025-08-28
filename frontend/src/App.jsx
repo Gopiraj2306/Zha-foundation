@@ -12,6 +12,7 @@ import AddStudent from './pages/school/addStudent/AddStudent';
 import SocialCoachDetails from './pages/school/SocialCoachDetails';
 import SocialEditCoach from './pages/school/SocialEditCoach';
 import SocialLoginDetails from './pages/school/SocialLoginDetails';
+import SchoolRegistrationForm from './components/SchoolRegistrationForm';
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/login" element={<Login onNavigate={(path) => window.location.pathname = path} />} />
           <Route path="/signup" element={<Signup onNavigate={(path) => window.location.pathname = path} />} />
+          <Route path="/signup/schoolregistrationform" element={<SchoolRegistrationForm />} />
           <Route path="/school-profile" element={<SchoolProfile />} />
           <Route path="/social-coach-management" element={<SocialCoachManagement />} />
           <Route path="/student-management" element={<StudentManagement />} /> 
@@ -30,6 +32,8 @@ function App() {
             <Route path="/coach-details" element={<SocialCoachDetails />} />
              <Route path="/social-coach/edit/:id" element={<SocialEditCoach />} />
              <Route path="/login-details" element={<SocialLoginDetails />} />
+            
+             
 
         </Routes>
       </div>

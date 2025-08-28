@@ -1,128 +1,174 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-body{
+body {
   font-family: 'Poppins';
- }
+}
+
 .login-container {
-  background: white;
   display: flex;
   height: 100vh;
-  width: 170%;
+  gap: 10px; /* image and form gap */
+  justify-content: center;
+  align-items: center; /* vertical center */
+  background: #ffffff; /* light bg for contrast */
 }
 
-/* Image section */
+/* Left side - image */
+.login-left {
+  flex: 1; /* smaller ratio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .login-image {
-  width: 150%;
-  flex: 1;
-  margin: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-image img {
-  width: 150%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-}
-
-/* Form section */
-.login-form {  
-  flex: 1;
-  margin-top: 20px;
-  margin-right: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: white;
-}
-.login-form h2{
-  text-align: center;
-}
-.login-form p{
-  text-align: center;
-}
-.login-form h3{
-  text-align: center;
-}
-
-
-.form-content {
   width: 100%;
-  max-width: 400px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
-.form-content h2 {
+/* Right side - form */
+.login-right {
+  flex: 1; /* increased width */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* center vertically */
+  background: #fff;
+   padding: 20px 40px;
+  border-radius: 16px;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 460px; /* bigger form area */
+  text-align: center;
+}
+
+.login-logo {
+  width: 80px;
+ margin-top: 20px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #222;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 14px;
+}
+
+.login-heading {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+/* Form */
+.form-group {
+  margin-top: -12px;
+  text-align: left;
   margin-bottom: 5px;
 }
 
-.form-content p {
-  margin-bottom: 10px;
-  color: #555;
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+.form-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 2px;
+  background: #ffffff;
+  font-family: 'Poppins';
 }
 
-input {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: -16px;
-}
-
-button:hover {
-  background-color: #0056b3;
+.form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
 .forgot-password {
   text-align: right;
-  font-size: 0.9em;
-  margin-bottom: 20px;
-  color: #000000;
+  font-size: 12px;
+  margin-top: -20px;
+  color: #007bff;
   cursor: pointer;
 }
 
-.signup-text {
+/* Button */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 9px;
+  transition: background 0.3s;
+  font-family: 'Poppins';
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+/* Divider */
+.divider {
+  margin-top: -15px;
+  /* margin: 8px 0; */
   text-align: center;
-  /* margin-top: 10px; */
+  color: #aaa;
+  font-size: 14px;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* Signup link */
+.signup-text {
+  margin-top: -1px;
+  font-size: 14px;
+  color: #333;
 }
 
 .signup-text a {
   color: #007bff;
   text-decoration: none;
-}
-
-.or-separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.or-separator hr {
-  flex: 1;
-  border: none;
-  height: 1px;
-  background-color: #ccc;
-}
-
-.or-separator span {
-  padding: 0 10px;
-  color: #000;
   font-weight: 500;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
 }

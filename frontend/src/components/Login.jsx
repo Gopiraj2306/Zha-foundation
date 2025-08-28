@@ -2,57 +2,75 @@ import React, { useState } from 'react';
 import './login.css';
 import plantImage from '../assets/plants.png';
 import logo from '../assets/logo.png';
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // Add your login logic here
-        console.log('Login attempt with:', { email, password });
-    };
-
-      const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/school-profile"); // direct navigate
+    console.log('Login attempt with:', { email, password });
+    navigate("/school-profile");
   };
 
-    return (
-        <div className="login-container">
-            <div className="login-image">
-                <img src={plantImage} alt="Login Visual" />
+  return (
+    <div className="login-container">
+      {/* Left Side - Image */}
+      <div className="login-left">
+        <img src={plantImage} alt="Login Visual" className="login-image" />
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="login-right">
+        <div className="login-content">
+          <img src={logo} alt="Logo" className="login-logo" />
+          <h2 className="login-title">
+            ZHA Sustainability Practitioners Certifications Club
+          </h2>
+          <p className="login-subtitle">Professional Mentoring Young Generation</p>
+          <h3 className="login-heading">Login</h3>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="form-input"
+              />
             </div>
-            <div className="login-form">
-                <div className="form-content">
-                    {/* <div className="logo"> */}
-                    <img src={logo} alt="Logo" width="60" height="60" style={{ marginLeft: '175px' }} />
-                    {/* </div> */}
-                    <h2>ZHA Sustainability Practitioners Certifications Club</h2>
-                    <p>Professional Mentoring Young Generation</p>
-                    <h3>Login</h3>
-                    <form onSubmit={handleSubmit}>
-                        <label>Email Address</label>
-                        <input type="email" placeholder="Enter your email address" />
-                        <label>Password</label>
-                        <input type="password" placeholder="Enter your password" />
-                        <div className="forgot-password">Forgot Password?</div>
-                        <button type="submit">Login</button>
-                    </form>
-                    <div className="or-separator">
-                        <hr />
-                        <span>or</span>
-                        <hr />
-                    </div>
-                    <p className="signup-text">New Registration? <Link to="/signup">Signup</Link></p>
-                </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="form-input"
+              />
             </div>
+
+            <div className="forgot-password">Forgot Password?</div>
+
+            <button type="submit" className="login-button">Login</button>
+          </form>
+
+          <div className="divider">or</div>
+
+          <p className="signup-text">
+            New Registration? <Link to="/signup">Signup</Link>
+          </p>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;
