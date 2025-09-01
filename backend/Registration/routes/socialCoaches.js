@@ -23,7 +23,7 @@ router.get('/', isAuthenticated, socialCoachController.getAllCoaches);
 router.get('/:id', isAuthenticated, socialCoachController.getCoachById);
 
 router.post('/', socialCoachController.createCoach);
-router.put('/:id', isAuthenticated, isSuperAdmin, socialCoachController.updateCoachById);
+router.put('/:id', socialCoachController.updateCoachById);
 router.delete('/:id', isAuthenticated, isSuperAdmin, socialCoachController.deleteCoachById);
 
 router.post('/bulk-upload', socialCoachController.bulkUploadCoaches);

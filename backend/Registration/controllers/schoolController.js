@@ -117,7 +117,7 @@ exports.getAllSchools = async (req, res) => {
 
 exports.getSchoolById = async (req, res) => {
   try {
-    const school = await School.findByPk(req.params.id, { include: State });
+    const school = await School.findByPk(req.params.id);
     if(!school) return res.status(404).json({ error: 'School not found' });
     res.json(school);
   } catch(error) {
