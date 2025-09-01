@@ -19,13 +19,13 @@ const socialCoachController = require('../controllers/socialCoachController');
 const { isAuthenticated } = require('../middlewares/authmiddleware');
 const { isSuperAdmin } = require('../middlewares/superadmin');
 
-router.get('/', isAuthenticated, socialCoachController.getAllSocialCoaches);
-router.get('/:id', isAuthenticated, socialCoachController.getSocialCoachById);
+router.get('/', isAuthenticated, socialCoachController.getAllCoaches);
+router.get('/:id', isAuthenticated, socialCoachController.getCoachById);
 
-router.post('/', isAuthenticated, isSuperAdmin, socialCoachController.createSocialCoach);
-router.put('/:id', isAuthenticated, isSuperAdmin, socialCoachController.updateSocialCoachById);
-router.delete('/:id', isAuthenticated, isSuperAdmin, socialCoachController.deleteSocialCoachById);
+router.post('/', socialCoachController.createCoach);
+router.put('/:id', isAuthenticated, isSuperAdmin, socialCoachController.updateCoachById);
+router.delete('/:id', isAuthenticated, isSuperAdmin, socialCoachController.deleteCoachById);
 
-router.post('/bulk-upload', isAuthenticated, isSuperAdmin, socialCoachController.bulkUploadCoaches);
+router.post('/bulk-upload', socialCoachController.bulkUploadCoaches);
 
 module.exports = router;

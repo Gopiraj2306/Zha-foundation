@@ -1,10 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
+const Permission = require('./Permission');
 
-module.exports = sequelize.define('Role', {
+const Role = sequelize.define('Role', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
   description: { type: DataTypes.TEXT },
+  permission_id: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false,
+    references: {
+      model: 'permissions', // table name
+      key: 'id'
+    }
+  },
   deleted_at: { type: DataTypes.DATE, allowNull: true }
 }, {
   tableName: 'roles',
@@ -14,3 +23,8 @@ module.exports = sequelize.define('Role', {
   paranoid: true,
   deletedAt: 'deleted_at'
 });
+
+// association
+Role.belongsTo(Permission, { foreignKey: 'permission_id' });
+
+module.exports = Role;

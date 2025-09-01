@@ -1,54 +1,84 @@
-const { Role } = require('../models');
+const Role = require('../models/role');
+const Permission = require('../models/Permission');
+const { log } = require('node:console');
+// const { log } = require('node:console');
 
+// Create Role
 exports.createRole = async (req, res) => {
   try {
-    const { name, description } = req.body;
-    if (!name) {
-      return res.status(400).json({ error: 'Role name is required' });
+    const { name, description, permission_id } = req.body;
+    console.log("📩 Incoming request body:", req.body);
+
+    // Check if permission exists before creating role
+    const permission = await Permission.findByPk(permission_id);
+    if (!permission) {
+      console.error("❌ Permission not found with ID:", permission_id);
+      return res.status(400).json({
+        success: false,
+        message: `Permission with ID ${permission_id} does not exist`
+      });
     }
-    const role = await Role.create({ name, description });
-    res.status(201).json(role);
+
+    const role = await Role.create({ name, description, permission_id });
+    console.log("✅ Role created successfully:", role.toJSON());
+
+    res.status(201).json({ success: true, data: role });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("🔥 Error creating role:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-exports.getAllRoles = async (req, res) => {
+
+// Get All Roles
+exports.getRoles = async (req, res) => {
   try {
-    const roles = await Role.findAll();
-    res.json(roles);
+    const roles = await Role.findAll({ include: Permission });
+    res.json({ success: true, data: roles });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
+// Get Single Role
 exports.getRoleById = async (req, res) => {
   try {
+    const role = await Role.findByPk(req.params.id, { include: Permission });
+    if (!role) return res.status(404).json({ success: false, message: 'Role not found' });
+    res.json({ success: true, data: role });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Update Role
+exports.updateRole = async (req, res) => {
+  try {
+    const { name, description, permission_id } = req.body;
     const role = await Role.findByPk(req.params.id);
-    if (!role) return res.status(404).json({ error: 'Role not found' });
-    res.json(role);
+
+    if (!role) return res.status(404).json({ success: false, message: 'Role not found' });
+
+    role.name = name || role.name;
+    role.description = description || role.description;
+    role.permission_id = permission_id || role.permission_id;
+
+    await role.save();
+    res.json({ success: true, data: role });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-exports.updateRoleById = async (req, res) => {
+// Delete Role (soft delete)
+exports.deleteRole = async (req, res) => {
   try {
-    const [updatedCount] = await Role.update(req.body, { where: { id: req.params.id } });
-    if (!updatedCount) return res.status(404).json({ error: 'Role not found' });
-    const updatedRole = await Role.findByPk(req.params.id);
-    res.json(updatedRole);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+    const role = await Role.findByPk(req.params.id);
+    if (!role) return res.status(404).json({ success: false, message: 'Role not found' });
 
-exports.deleteRoleById = async (req, res) => {
-  try {
-    const deletedCount = await Role.destroy({ where: { id: req.params.id } });
-    if (!deletedCount) return res.status(404).json({ error: 'Role not found' });
-    res.json({ message: 'Role deleted' });
+    await role.destroy(); // soft delete (because paranoid:true)
+    res.json({ success: true, message: 'Role deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };

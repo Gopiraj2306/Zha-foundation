@@ -1,14 +1,15 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
-module.exports = sequelize.define('Permission', {
+const Permission = sequelize.define('Permissions', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
-  description: { type: DataTypes.TEXT },
-  is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-  created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+  description: { type: DataTypes.TEXT }
 }, {
   tableName: 'permissions',
-  timestamps: false // or true with proper field mappings
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
+
+module.exports = Permission;

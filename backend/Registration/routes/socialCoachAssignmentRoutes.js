@@ -17,7 +17,7 @@ const express = require('express');
 const router = express.Router();
 
 const socialCoachAssignmentController = require('../controllers/socialCoachAssignmentController');
-const { isAuthenticated } = require('../middlewares/authmiddleware');
+const { isAuthenticated } = require('../middlewares/authMiddleware');
 const { isSuperAdmin } = require('../middlewares/superadmin');
 
 router.get('/', isAuthenticated, socialCoachAssignmentController.getAllAssignments);

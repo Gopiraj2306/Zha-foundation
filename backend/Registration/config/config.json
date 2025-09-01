@@ -4,21 +4,21 @@
   "development": {
    "username": "root",
     "password": "keerthi@444",
-    "database": "test1",
+    "database": "zha_app",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
    "username": "root",
     "password": "keerthi@444",
-    "database": "test1",
+    "database": "zha_app",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
    "username": "root",
     "password": "keerthi@444",
-    "database": "test1",
+    "database": "zha_app",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

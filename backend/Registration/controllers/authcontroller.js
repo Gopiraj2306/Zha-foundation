@@ -133,14 +133,14 @@ exports.register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword, mobile_no });
+    const user = await User.create({ name, email, password: hashedPassword, mobile_no ,role});
 
     const roleRecord = await Role.findOne({ where: { name: role } });
     if (!roleRecord) {
       return res.status(400).json({ error: 'Role does not exist' });
     }
 
-    await UserRole.create({ user_id: user.id, role_id: roleRecord.id });
+    // await UserRole.create({ user_id: user.id, role_id: roleRecord.id });
 
     const token = jwt.sign(
       { id: user.id, roles: [roleRecord.name] },
@@ -151,7 +151,7 @@ exports.register = async (req, res) => {
     res.status(201).json({
       id: user.id,
       email: user.email,
-      role: roleRecord.name,
+      role: user.role,
       token
     });
   } catch (error) {
@@ -164,43 +164,40 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // 1️⃣ Find user
     const user = await User.findOne({ where: { email, is_deleted: false } });
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
+    // 2️⃣ Verify password
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: 'Invalid credentials' });
 
-    const userRoles = await UserRole.findAll({
-      where: { user_id: user.id },
-      include: [{ model: Role }]
-    });
-    const roles = userRoles.map(ur => ur.Role.name);
+    // 3️⃣ Get user's role and permissions
+    const userRole = await Role.findOne({ where: { name: user.role } });
+    if (!userRole) return res.status(403).json({ error: 'Role not found' });
 
-    let permissions = [];
-    if (roles.includes('Super Admin')) {
-      const allPermissions = await Permission.findAll();
-      permissions = allPermissions.map(p => p.name);
-    } else {
-      const roleIds = userRoles.map(ur => ur.role_id);
-      const rolePermissions = await RolePermission.findAll({
-        where: { role_id: roleIds },
-        include: [{ model: Permission }]
-      });
-      permissions = rolePermissions.map(rp => rp.Permission.name);
-    }
+    const permission = await Permission.findByPk(userRole.permission_id);
+    const permissionName = permission ? permission.name : null;
 
-    const token = jwt.sign({ id: user.id, roles }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // 4️⃣ Generate JWT token (including role and permission)
+    const token = jwt.sign(
+      { id: user.id, role: user.role, permission: permissionName },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
+    // 5️⃣ Send response
     res.json({
       token,
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
-        roles,
-        permissions
+        role: user.role,
+        permission: permissionName
       }
     });
+
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
