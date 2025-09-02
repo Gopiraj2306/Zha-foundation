@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
   overflow: hidden;
-  background-color: #ffff; /* stops page scroll */
+  background-color: #ffff; 
 }
 .sidebar {
   margin-top: 20px;
@@ -11,9 +11,9 @@ html, body {
   background-color: white;
   border-right: 1px solid #e5e7eb;
   min-height: calc(100vh - 94px);
-  margin-top: 94px; /* match header height */
+  margin-top: 94px;
   overflow-y: auto;
-  font-family: 'Inter', sans-serif; /* ✅ exact font */
+  font-family: 'Inter', sans-serif;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
 }
@@ -23,6 +23,7 @@ html, body {
 }
 
 .sidebar-nav {
+  margin-top: -28px;
   padding: 0.75rem;
   display: flex;
   flex-direction: column;

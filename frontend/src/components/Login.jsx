@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import './login.css';
 import plantImage from '../assets/plants.png';
 import logo from '../assets/logo.png';
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt with:', { email, password });
-    navigate("/school-profile");
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+
+      // 🔑 save token & user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      console.log("Login success:", res.data);
+
+      // redirect after login
+      navigate("/school-profile");
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      alert("Invalid email or password");
+    }
   };
 
   return (

@@ -5,9 +5,11 @@ body {
 }
 
 .login-container {
+  position: relative;
   display: flex;
   height: 100vh;
-  gap: 10px; /* image and form gap */
+  width: 100vw;
+  /* gap: 10px; */
   justify-content: center;
   align-items: center; /* vertical center */
   background: #ffffff; /* light bg for contrast */
@@ -15,10 +17,13 @@ body {
 
 /* Left side - image */
 .login-left {
-  flex: 1; /* smaller ratio */
+  /* flex: 1;  */
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 40%;
+  height: 100%;
 }
 
 .login-image {
@@ -26,11 +31,15 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
+  position: absolute;
+  padding: 0.75rem;
 }
 
 /* Right side - form */
 .login-right {
-  flex: 1; /* increased width */
+  /* flex: 1; */
+  position: relative;
+    width: 60%;
   display: flex;
   justify-content: center;
   align-items: center; /* center vertically */

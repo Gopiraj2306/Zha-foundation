@@ -10,13 +10,14 @@ import {
   Settings, 
   LogOut 
 } from 'lucide-react';
-import { Link } from 'react-router-dom'; // ✅ Import
+import { Link, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
-import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ activeItem = "School management" }) => {
+const Sidebar = ({ activeItem = "", role }) => {
   const navigate = useNavigate();
-  const menuItems = [
+
+  // 🎯 Sidebar menus for each role
+  const schoolAdminMenu = [
     { icon: Building2, label: "School management", path: "/school-profile" },
     { icon: Users, label: "Social coach management", path: "/social-coach-management" },
     { icon: GraduationCap, label: "Student Management", path: "/student-management" },
@@ -27,10 +28,19 @@ const Sidebar = ({ activeItem = "School management" }) => {
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
+  const superAdminMenu = [
+    { icon: Building2, label: "School Management", path: "/admin/student-management" },
+    { icon: Users, label: "Social Coach Management", path: "/superadmin/social-coach" },
+    { icon: GraduationCap, label: "Governor Management", path: "/superadmin/governor" },
+    { icon: BarChart3, label: "Leaderboard Management", path: "/superadmin/leaderboard" },
+    { icon: Settings, label: "Settings", path: "/superadmin/settings" },
+  ];
+
+  // Pick menu based on role
+  const menuItems = role === "superadmin" ? superAdminMenu : schoolAdminMenu;
+
   const handleLogout = () => {
-    // optional: localStorage/session clear panna
     localStorage.removeItem("token"); 
-    // navigate to login
     navigate("/login");
   };
 
@@ -55,11 +65,9 @@ const Sidebar = ({ activeItem = "School management" }) => {
 
         {/* Logout */}
         <div className="sidebar-divider">
-          <div className="logout-item">
+          <div className="logout-item" onClick={handleLogout}>
             <LogOut />
-            <span className="logout-item-text" onClick={handleLogout} style={{ cursor: "pointer" }}>
-      Logout
-    </span>
+            <span className="logout-item-text">Logout</span>
           </div>
         </div>
       </nav>

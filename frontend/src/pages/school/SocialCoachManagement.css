@@ -105,6 +105,7 @@ align-items: center;
    TABLE
 ========================= */
 .table-container {
+  width: 902px;
   margin-left: -50px;
   background: #fff;
   border-radius: 10px;

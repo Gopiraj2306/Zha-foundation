@@ -13,6 +13,10 @@ import SocialCoachDetails from './pages/school/SocialCoachDetails';
 import SocialEditCoach from './pages/school/SocialEditCoach';
 import SocialLoginDetails from './pages/school/SocialLoginDetails';
 import SchoolRegistrationForm from './components/SchoolRegistrationForm';
+import AdminStudentManagement from './pages/superadmin/AdminStudentManagement';
+import ViewRegistrationForm from './pages/superadmin/ViewRegistrationForm';
+import EditRegistrationForm from './pages/superadmin/EditRegistrationSchool';
+
 function App() {
   return (
     <Router>
@@ -32,6 +36,11 @@ function App() {
             <Route path="/coach-details" element={<SocialCoachDetails />} />
              <Route path="/social-coach/edit/:id" element={<SocialEditCoach />} />
              <Route path="/login-details" element={<SocialLoginDetails />} />
+             <Route path="/admin/student-management" element={<AdminStudentManagement />} />
+              <Route path="/schools/view/:id" element={<ViewRegistrationForm />} />
+              <Route path="/schools/edit/:id" element={<EditRegistrationForm />} />
+
+              
             
              
 

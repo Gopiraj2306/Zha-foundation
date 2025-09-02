@@ -1,7 +1,39 @@
-body {
+/* body {
+  width: 100%;
   margin: 0;
   display: flex;
   place-items: center;
-  /* min-width: 320px; */
+  min-width: 320px;
   min-height: 100vh;
+} */
+
+
+html,
+body {
+
+  height: 100%;
+  /* Or use a specific value like '100vh' for viewport height */
+
+  width: 100%;
+  /* Or use a specific value like '100vw' for viewport width */
+
+  margin: 0;
+  /* Remove default margins to avoid overflow issues */
+
+  padding: 0;
+  /* Remove default padding */
+
+  box-sizing: border-box;
+  /* Optional: Ensures padding/borders are included in dimensions */
+
+}
+
+/* Also style your root element to inherit the full size */
+
+#root {
+
+  height: 100%;
+
+  width: 100%;
+
 }

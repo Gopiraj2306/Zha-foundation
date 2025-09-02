@@ -35,6 +35,7 @@ const Signup = () => {
         formData
       );
       console.log("Signup Success:", res.data);
+       localStorage.setItem("token", res.data.token);
 
       // ✅ After signup → go directly to SchoolRegistrationForm
       navigate("/signup/schoolregistrationform");
@@ -49,8 +50,8 @@ const Signup = () => {
   return (
     <div className="signup-container">
       {/* Left Side - Image */}
-      <div className="signup-left">
-        <img src={plantImage} alt="Signup Visual" className="signup-image" />
+      <div className="login-left">
+        <img src={plantImage} alt="Login Visual" className="login-image" />
       </div>
 
       {/* Right Side - Form */}
@@ -76,7 +77,6 @@ const Signup = () => {
                 className="form-input"
               >
                 <option value="">Choose your role</option>
-                <option value="Super Admin">Super Admin</option>
                 <option value="Governor">Governor</option>
                 <option value="School Admin">School</option>
                 <option value="Social Coach">Social Coach</option>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./SchoolRegistrationForm.css";
 import logo from "../assets/logo.png"; // replace with your local logo file path
 
@@ -75,19 +76,74 @@ export default function SchoolRegistrationForm() {
   };
 
   // submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Form Data Submitted:", formData);
-      navigate("/login"); // submit -> go to login page
+      try {
+        const requestBody = {
+          name: formData.schoolName,
+          landline_no: formData.schoolLandline,
+          mobile_no: formData.schoolMobile,
+          total_teachers: formData.teachers,
+          contact_person: formData.contactPerson,
+          contact_person_mobile: formData.contactMobile,
+          contact_person_email: formData.contactEmail,
+          school_type: formData.schoolType,
+          school_management: formData.schoolManagement,
+          state_id: formData.state,
+          education_district: formData.district,
+          email: formData.schoolEmail,
+          class_range: formData.class,
+          fax_no: formData.fax,
+          postal_code: formData.pin,
+          address_line1: formData.address1,
+          address_line2: formData.address2,
+          address_line3: formData.address3,
+          landmark: formData.landmark,
+          status: "Pending",
+          is_active: true,
+          is_deleted: false,
+        };
+
+        // 🔑 Get token from localStorage
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          alert("No token found. Please login again.");
+          navigate("/login");
+          return;
+        }
+
+        // ✅ Send request with token in headers
+        const res = await axios.post(
+          "http://localhost:5000/api/schools",
+          requestBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Form Data Submitted:", res.data);
+        alert("School registration submitted successfully!");
+        navigate("/login");
+      } catch (error) {
+        console.error(
+          "Error submitting form:",
+          error.response?.data || error.message
+        );
+        alert(error.response?.data?.error || "Failed to submit school registration");
+      }
     }
   };
 
   // cancel
   const handleCancel = () => {
-    navigate("/signup"); // cancel -> go to signup page
+    navigate("/signup"); 
   };
-
+  
   return (
     <div className="school-container">
       {/* Header */}
@@ -121,7 +177,7 @@ export default function SchoolRegistrationForm() {
             {errors.schoolName && <small>{errors.schoolName}</small>}
           </div>
           <div className="form-group">
-            <label>
+            <label> 
               School Landline No<span>*</span>
             </label>
             <input
@@ -213,7 +269,7 @@ export default function SchoolRegistrationForm() {
               onChange={handleChange}
             >
               <option value="">Select</option>
-              <option>Aided</option>
+              <option>Government</option>
               <option>Unaided</option>
             </select>
             {errors.schoolManagement && <small>{errors.schoolManagement}</small>}

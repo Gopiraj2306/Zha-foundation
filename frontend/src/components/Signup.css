@@ -31,11 +31,11 @@ body{
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;   /* start at top so scroll works naturally */
+  align-items: flex-start;   
   background: #fff;
   padding: 40px;
   overflow-y: auto; 
-  font-family: 'Poppins';         /* ✅ scroll only inside form */
+  font-family: 'Poppins';        
 }
 
 

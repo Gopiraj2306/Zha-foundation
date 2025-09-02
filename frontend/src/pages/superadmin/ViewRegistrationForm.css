@@ -1,0 +1,239 @@
+/* Container Layout */
+.view-school-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.view-app-body {
+  display: flex;
+  flex: 1;
+  height: 100%; /* 👈 add this */
+}
+
+.view-main-content {
+  flex: 1;
+  padding: 24px 32px;
+  background: #f8f9fc;
+  overflow-y: auto;
+  height: 100%; /* 👈 add this */
+  max-height: 100vh; /* 👈 ensures scroll activates when content > screen */
+}
+
+/* Header Section */
+.view-page-header {
+  margin-bottom: 24px;
+}
+
+.view-page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+}
+
+.view-page-header p {
+  margin: 6px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Form Card */
+.view-school-form {
+  background: #fff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Grid Layout */
+.view-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px 24px;
+  margin-bottom: 20px;
+}
+
+/* Form Groups */
+.view-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-form-group label {
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.view-form-group input {
+  padding: 10px 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Disabled look */
+.view-form-group input:disabled {
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Back Button */
+.view-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+.view-back-btn {
+  padding: 10px 22px;
+  background: #4b6cb7;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease-in-out;
+}
+
+.view-back-btn:hover {
+  background: #395591;
+}
+/* Container Layout */
+.view-school-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.view-app-body {
+  display: flex;
+  flex: 1;
+}
+
+.view-main-content {
+  flex: 1;
+  padding: 24px 32px;
+  background: #f8f9fc;
+  overflow-y: auto;
+}
+
+/* Header Section */
+.view-page-header {
+  margin-bottom: 24px;
+}
+
+.view-page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+}
+
+.view-page-header p {
+  margin: 6px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Form Card */
+.view-school-form {
+  background: #fff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Grid Layout */
+.view-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px 24px;
+  margin-bottom: 20px;
+}
+
+/* Form Groups */
+.view-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-form-group label {
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.view-form-group input {
+  padding: 10px 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Disabled look */
+.view-form-group input:disabled {
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Back Button */
+.view-form-buttons {
+  display: flex;
+  justify-content: center; /* 👈 center align */
+  gap: 16px; /* space between buttons */
+  margin-top: 28px;
+}
+
+.view-cancel-btn,
+.view-save-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+/* Cancel Button */
+.view-cancel-btn {
+  background: #ccc;
+  color: #222;
+}
+
+.view-cancel-btn:hover {
+  background: #aaa;
+}
+
+/* Save Button */
+.view-save-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.view-save-btn:hover {
+  background: #3571f5;
+}
+
+.view-form-group select {
+  padding: 10px 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: #333;
+  font-size: 14px;
+}
+
+.view-form-group select:disabled {
+  color: #555;
+  cursor: not-allowed;
+}
