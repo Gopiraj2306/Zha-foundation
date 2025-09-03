@@ -95,11 +95,6 @@
 
 const { School, State } = require('../models');
 
-const generateSchoolCode = (stateCode, cityCode, otherCode = '') => {
-  const suffix = Math.floor(1000 + Math.random() * 9000);
-  return `ZHA0${stateCode}0${cityCode}${otherCode}${suffix}`;
-};
-
 exports.createSchool = async (req, res) => {
   try {
     if (!req.body.state_id) return res.status(400).json({ error: 'state_id is required' });
@@ -122,36 +117,13 @@ exports.getAllSchools = async (req, res) => {
 
 exports.getSchoolById = async (req, res) => {
   try {
-    const school = await School.findByPk(req.params.id, { include: State });
+    const school = await School.findByPk(req.params.id);
     if(!school) return res.status(404).json({ error: 'School not found' });
     res.json(school);
   } catch(error) {
     res.status(500).json({ error: error.message });
   }
 };
-
-exports.approveSchool = async (req, res) => {
-  try {
-    const school = await School.findByPk(req.params.id, { include: State });
-    if(!school) return res.status(404).json({ error: 'School not found' });
-
-    if(school.status === 'Approved')
-      return res.status(400).json({ error: 'School already approved' });
-
-    const stateCode = school.State.name.toUpperCase().substring(0,3);
-    const cityCode = (school.city || '').toUpperCase().substring(0, 2);
-    const schoolCode = generateSchoolCode(stateCode, cityCode);
-
-    await school.update({ status: 'Approved', school_code: schoolCode, approved_date: new Date() });
-
-    res.json({ message: 'School approved', school });
-  } catch(error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
-
 
 exports.updateSchoolById = async (req, res) => {
   try {
@@ -181,3 +153,24 @@ exports.deleteSchoolById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
+// exports.approveSchool = async (req, res) => {
+//   try {
+//     const school = await School.findByPk(req.params.id, { include: State });
+//     if(!school) return res.status(404).json({ error: 'School not found' });
+
+//     if(school.status === 'Approved')
+//       return res.status(400).json({ error: 'School already approved' });
+
+//     const stateCode = school.State.name.toUpperCase().substring(0,3);
+//     const cityCode = (school.city || '').toUpperCase().substring(0, 2);
+//     const schoolCode = generateSchoolCode(stateCode, cityCode);
+
+//     await school.update({ status: 'Approved', school_code: schoolCode, approved_date: new Date() });
+
+//     res.json({ message: 'School approved', school });
+//   } catch(error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };

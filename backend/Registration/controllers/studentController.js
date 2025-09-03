@@ -181,7 +181,6 @@ const upload = multer({
 // 📊 Bulk Upload
 exports.bulkUploadStudents = async (req, res) => {
   try {
-    // Upload file
     await new Promise((resolve, reject) => {
       upload(req, res, (err) => {
         if (err) return reject(err);
@@ -198,44 +197,40 @@ exports.bulkUploadStudents = async (req, res) => {
       return res.status(400).json({ error: 'Excel file is empty or missing data' });
     }
 
-    // Validate required headers
+    // Map headers
     const headers = rows[0].map(h => h.toString().toLowerCase().trim());
-    const requiredCols = ['first_name', 'last_name', 'email', 'phone', 'gender', 'school_id', 'user_id'];
-    const colMap = {};
+
+    // Required columns for DB
+    const requiredCols = [
+      'school_id', 'user_id', 'school_name', 'school_code', 'registration_date',
+      'first_name', 'last_name', 'email', 'roll_no', 'class', 'section',
+      'gender', 'mobile_number', 'father_name', 'father_mobile_number',
+      'mother_name', 'mother_mobile_number', 'date_of_birth', 'blood_group', 'status'
+    ];
 
     for (const col of requiredCols) {
-      const idx = headers.indexOf(col);
-      if (idx === -1) {
+      if (!headers.includes(col)) {
         fs.unlinkSync(filePath);
         return res.status(400).json({ error: `Missing required column: ${col}` });
       }
-      colMap[col] = idx;
     }
 
     // Map rows → student objects
     const students = [];
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
-      if (!row[colMap.first_name] || !row[colMap.email]) continue;
+      const student = {};
+      requiredCols.forEach(col => {
+        const idx = headers.indexOf(col);
+        student[col] = row[idx] ?? null;
+      });
 
-      const student = {
-        first_name: row[colMap.first_name],
-        last_name: row[colMap.last_name],
-        email: row[colMap.email],
-        phone: row[colMap.phone] || null,
-        gender: row[colMap.gender] || null,
-        school_id: parseInt(row[colMap.school_id], 10),
-        user_id: parseInt(row[colMap.user_id], 10),
-        date_of_birth: row[headers.indexOf('date_of_birth')] || null,
-        grade: row[headers.indexOf('grade')] || null,
-        section: row[headers.indexOf('section')] || null,
-        roll_number: row[headers.indexOf('roll_number')] || null,
-        parent_name: row[headers.indexOf('parent_name')] || null,
-        parent_contact: row[headers.indexOf('parent_contact')] || null,
-        is_active: row[headers.indexOf('is_active')]?.toString().toLowerCase() === 'true'
-      };
+      // Additional default fields
+      student.is_active = row[headers.indexOf('is_active')]?.toString().toLowerCase() === 'true' ?? true;
+      student.is_deleted = false;
+      student.created_at = new Date();
+      student.updated_at = new Date();
 
-      console.log(`➡️ Row ${i}:`, student);
       students.push(student);
     }
 
@@ -244,7 +239,7 @@ exports.bulkUploadStudents = async (req, res) => {
       return res.status(400).json({ error: 'No valid student records found' });
     }
 
-    // Insert into DB
+    // Bulk insert
     await Student.bulkCreate(students);
     fs.unlinkSync(filePath);
 
@@ -255,6 +250,7 @@ exports.bulkUploadStudents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // ➕ Create
 exports.createStudent = async (req, res) => {
@@ -271,6 +267,81 @@ exports.createStudent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.addStudent = async (req, res) => {
+  try {
+    const {
+      school_id,
+      user_id,
+      school_name,
+      school_code,
+      registration_date,
+      first_name,
+      last_name,
+      email,
+      roll_no,
+      class: studentClass,
+      section,
+      gender,
+      mobile_number,
+      father_name,
+      father_mobile_number,
+      mother_name,
+      mother_mobile_number,
+      date_of_birth,
+      blood_group,
+      status,
+      address_line1,
+      address_line2,
+      address_line3,
+      is_active
+    } = req.body;
+
+    // Validate essential required fields
+    if (!school_id) return res.status(400).json({ error: 'school_id is required' });
+    if (!user_id) return res.status(400).json({ error: 'user_id is required' });
+    if (!school_name) return res.status(400).json({ error: 'school_name is required' });
+    if (!school_code) return res.status(400).json({ error: 'school_code is required' });
+    if (!registration_date) return res.status(400).json({ error: 'registration_date is required' });
+    if (!first_name) return res.status(400).json({ error: 'first_name is required' });
+    if (!email) return res.status(400).json({ error: 'email is required' });
+
+    const student = await Student.create({
+      school_id,
+      user_id,
+      school_name,
+      school_code,
+      registration_date,
+      first_name,
+      last_name,
+      email,
+      roll_no,
+      class: studentClass,
+      section,
+      gender,
+      mobile_number,
+      father_name,
+      father_mobile_number,
+      mother_name,
+      mother_mobile_number,
+      date_of_birth,
+      blood_group,
+      status: status || 'Active',
+      address_line1,
+      address_line2,
+      address_line3,
+      is_active: is_active === undefined ? true : is_active,
+      is_deleted: false
+    });
+
+    res.status(201).json(student);
+  } catch (error) {
+    console.error('Add Student Error:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+};
+
 
 // 📋 Get All with filters
 exports.getAllStudents = async (req, res) => {

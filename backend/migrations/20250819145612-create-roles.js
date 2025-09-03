@@ -17,6 +17,16 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+      permission_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false, // can make it false if mandatory
+        references: {
+          model: 'permissions', // 👈 must match your permissions table name
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
